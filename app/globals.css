@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+/* Design tokens — Tailwind v4 auto-generates utilities from --color-*, --font-*, etc.
+   Names use the design-system amendment: canvas/surface/ink/line instead of bg/fg/border,
+   because Tailwind's utility prefix (bg-, text-, border-) would otherwise repeat the intent. */
+@theme {
+  --color-canvas: #0a0a0a;
+  --color-surface: #0f0f0f;
+  --color-surface-raised: #141414;
+  --color-line: #1f1f1f;
+  --color-line-strong: #2a2a2a;
+  --color-ink: #ededed;
+  --color-ink-mute: #a3a3a3;
+  --color-ink-dim: #737373;
+  --color-focus: #ffffff;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+
+  /* Typefaces loaded via next/font/google in app/layout.tsx.
+     Instrument Sans/Serif + JetBrains Mono chosen for editorial-engineering character;
+     system fallbacks keep FOUT graceful and printers legible. */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, monospace;
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  --container-prose: 38rem;
+  --container-site: 72rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Forced Colors (Windows High Contrast): system CanvasText guarantees the ring
+     stays visible even when user themes override our --color-focus token. */
+  @media (forced-colors: active) {
+    *:focus-visible {
+      outline: 2px solid CanvasText;
+      outline-offset: 3px;
+    }
+  }
+
+  /* Hero entry: rise + fade for staggered arrival. Composited (opacity + transform)
+     — no layout/paint cost. Applied via .hero-in with [animation-delay:...] utilities.
+     Under prefers-reduced-motion the global 0.001ms rule collapses to end state. */
+  @keyframes fade-rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .hero-in {
+    animation: fade-rise 700ms var(--ease-out) both;
+  }
+
+  /* Seamless marquee. Track is items×2; -50% snaps back to the start of the
+     duplicate exactly when the original scrolls out. */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ponytail: the scroll-triggered reveal was removed because any failure
+     (blocked JS, ad blocker, slow hydration, older browser) left content
+     invisible. All `.reveal` classes remain in the markup but do nothing —
+     content is always painted at full opacity, no transform. Motion craft
+     still comes from the CSS hero entrance + parallax + spotlight + marquee. */
+  .reveal,
+  .reveal-d1,
+  .reveal-d2,
+  .reveal-d3,
+  .reveal-d4,
+  .reveal-d5,
+  .reveal-d6 {
+    opacity: 1;
+    transform: none;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-canvas);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}

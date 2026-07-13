@@ -1,0 +1,41 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Next.js / build output
+.next
+out
+build
+coverage
+*.tsbuildinfo
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+.env*.local
+
+# Vercel / CI/CD local artifacts
+.vercel
+.vercel/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# TypeScript
+next-env.d.ts
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Certificates / keys
+*.pem
+*.key
+*.crt
