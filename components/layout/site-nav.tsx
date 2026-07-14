@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
-
-const WAITLIST_HREF =
-  "mailto:suresh.avula@bytehubble.ai?subject=Waitlist%20%E2%80%93%20ByteHubble%20AI%20Academy&body=Please%20add%20me%20to%20the%20founding%20cohort%20waitlist.";
+import { ApplyButton } from "@/components/apply/apply-dialog";
 
 export function SiteNav() {
   return (
@@ -15,12 +13,15 @@ export function SiteNav() {
           <Link
             href="/"
             aria-label="ByteHubble AI Academy — home"
-            className="group inline-flex items-baseline gap-2 rounded-sm"
+            className="group inline-flex items-baseline gap-2.5 rounded-sm"
           >
-            <span className="font-serif text-[1.35rem] italic leading-none tracking-tight text-ink transition-colors group-hover:text-ink-mute">
+            <span className="font-serif text-[1.6rem] italic leading-none tracking-tight text-ink transition-colors group-hover:text-accent">
               ByteHubble
             </span>
-            <span className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute">
+            <span aria-hidden className="text-accent/70">
+              ✦
+            </span>
+            <span className="font-mono text-[0.68rem] uppercase tracking-[0.18em] text-ink-mute">
               AI Academy
             </span>
           </Link>
@@ -29,17 +30,14 @@ export function SiteNav() {
             <span className="hidden items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-ink-mute md:inline-flex">
               <span
                 aria-hidden
-                className="h-1.5 w-1.5 rounded-full bg-success"
+                className="h-1.5 w-1.5 rounded-full bg-accent"
               />
-              Founding cohort · Forming
+              Next cohort · Applications open
             </span>
-            <a
-              href={WAITLIST_HREF}
-              className="inline-flex h-9 items-center rounded-full border border-line-strong px-4 text-[0.85rem] font-medium text-ink transition-colors hover:bg-ink hover:text-canvas"
-            >
-              <span className="hidden sm:inline">Join the waitlist</span>
-              <span className="sm:hidden">Waitlist</span>
-            </a>
+            <ApplyButton className="inline-flex h-9 items-center rounded-full bg-ink px-4 text-[0.85rem] font-medium text-canvas transition-colors hover:bg-accent">
+              <span className="hidden sm:inline">Apply to cohort</span>
+              <span className="sm:hidden">Apply</span>
+            </ApplyButton>
           </div>
         </nav>
       </Container>

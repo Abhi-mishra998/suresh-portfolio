@@ -20,22 +20,20 @@ export function Audience() {
       <Container>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <p className="reveal font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute">
-              Who it&rsquo;s for
+            <p className="reveal font-mono text-[0.72rem] uppercase tracking-[0.18em] text-accent">
+              ✦ Who it&rsquo;s for
             </p>
             <h2
               id="audience-title"
-              className="reveal mt-4 text-[clamp(2rem,4.5vw,3.4rem)] font-medium leading-[1.05] tracking-[-0.025em] text-ink"
+              className="reveal mt-4 font-serif text-[clamp(2.2rem,5vw,3.6rem)] font-normal leading-[1.03] tracking-[-0.025em] text-ink"
             >
               For engineers{" "}
-              <span className="font-serif italic font-normal text-ink-mute">
-                already shipping.
-              </span>
+              <span className="italic text-accent">aiming higher.</span>
             </h2>
-            <p className="reveal reveal-d2 mt-6 max-w-md text-[1.05rem] leading-[1.6] text-ink-mute">
-              Not for beginners. If you already ship software professionally and
-              your team is being asked to &ldquo;add AI,&rdquo; this is the
-              missing training.
+            <p className="reveal mt-6 max-w-md text-[1.05rem] leading-[1.65] text-ink-mute">
+              Not for beginners. If you already ship software and you&rsquo;re
+              ready to move to a product company, top MNC or funded startup —
+              this is the missing training.
             </p>
           </div>
           <div className="md:col-span-7">
@@ -43,7 +41,7 @@ export function Audience() {
               {ROLES.map((role, i) => (
                 <li
                   key={role}
-                  className={`reveal reveal-d${(i % 6) + 1} flex items-baseline gap-3 border-b border-line pb-4 text-[1.05rem] text-ink`}
+                  className="reveal flex items-baseline gap-3 border-b border-line pb-4 text-[1.05rem] text-ink transition-colors hover:text-accent"
                 >
                   <span
                     aria-hidden

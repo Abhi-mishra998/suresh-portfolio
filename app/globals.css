@@ -4,26 +4,28 @@
    Names use the design-system amendment: canvas/surface/ink/line instead of bg/fg/border,
    because Tailwind's utility prefix (bg-, text-, border-) would otherwise repeat the intent. */
 @theme {
-  --color-canvas: #0a0a0a;
-  --color-surface: #0f0f0f;
-  --color-surface-raised: #141414;
-  --color-line: #1f1f1f;
-  --color-line-strong: #2a2a2a;
-  --color-ink: #ededed;
-  --color-ink-mute: #a3a3a3;
-  --color-ink-dim: #737373;
-  --color-focus: #ffffff;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
+  --color-canvas: #fbf7ef;
+  --color-surface: #ffffff;
+  --color-surface-raised: #f3edde;
+  --color-line: #e5dcc8;
+  --color-line-strong: #c9b991;
+  --color-ink: #14213d;
+  --color-ink-mute: #4a5568;
+  --color-ink-dim: #8a7f6b;
+  --color-focus: #14213d;
+  --color-accent: #b8860b;
+  --color-accent-soft: #e8ce7d;
+  --color-success: #2f7d5a;
+  --color-warning: #b8860b;
+  --color-error: #b0413e;
 
   /* Typefaces loaded via next/font/google in app/layout.tsx.
-     Instrument Sans/Serif + JetBrains Mono chosen for editorial-engineering character;
-     system fallbacks keep FOUT graceful and printers legible. */
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system,
+     Inter (body) + Fraunces (display, variable opsz/SOFT) + JetBrains Mono.
+     Fraunces italic uses the SOFT axis for a warm, editorial character. */
+  --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+  --font-serif: var(--font-serif-var), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-mono-var), ui-monospace, SFMono-Regular, "SF Mono", Menlo,
     Consolas, monospace;
 
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
@@ -35,7 +37,7 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   html {
@@ -51,7 +53,22 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
     margin: 0;
+  }
+
+  /* Fraunces looks its best when the opsz + SOFT axes are actually driven —
+     serif text (h1/h2/etc + .font-serif) gets dramatic display sizing, softer
+     italic. Numbers inherit the same warmth. */
+  :is(.font-serif, h1, h2) {
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 108, "SOFT" 60;
+    letter-spacing: -0.02em;
+  }
+  .font-serif.italic,
+  em,
+  i {
+    font-variation-settings: "opsz" 96, "SOFT" 100;
   }
 
   *:focus-visible {
@@ -97,20 +114,113 @@
     }
   }
 
-  /* ponytail: the scroll-triggered reveal was removed because any failure
-     (blocked JS, ad blocker, slow hydration, older browser) left content
-     invisible. All `.reveal` classes remain in the markup but do nothing —
-     content is always painted at full opacity, no transform. Motion craft
-     still comes from the CSS hero entrance + parallax + spotlight + marquee. */
-  .reveal,
-  .reveal-d1,
-  .reveal-d2,
-  .reveal-d3,
-  .reveal-d4,
-  .reveal-d5,
-  .reveal-d6 {
+  /* Scroll-driven reveal via view-timeline. CSS-only, no IntersectionObserver.
+     ponytail: default state is VISIBLE (opacity 1). Only browsers that
+     support animation-timeline: view() opt-in to the reveal — anything else
+     paints content statically. No JS = no risk of invisible content. */
+  .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  @keyframes reveal-rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        animation: reveal-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-timeline: view();
+        animation-range: entry 5% cover 25%;
+      }
+    }
+  }
+
+  /* Underline animate-in — pairs with .link-anim on inline text links */
+  .link-anim {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    transition: background-size 350ms var(--ease-out);
+    padding-bottom: 2px;
+  }
+  .link-anim:hover,
+  .link-anim:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Auto-pause any marquee on hover — keep it lazy: single utility class. */
+  .marquee-pausable:hover [class*="animate-\[marquee"] {
+    animation-play-state: paused;
+  }
+
+  /* Native <dialog> pop-in. `open` attribute is set by showModal(); ::backdrop
+     is a first-class pseudo-element (does NOT inherit from the dialog). */
+  dialog.apply-dialog {
+    background: transparent;
+    padding: 0;
+    border: 0;
+    max-width: min(100%, 40rem);
+    width: 100%;
+    color: inherit;
+  }
+  dialog.apply-dialog[open] {
+    animation: dialog-pop 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  dialog.apply-dialog[open]::backdrop {
+    animation: dialog-backdrop 420ms ease-out both;
+  }
+  @keyframes dialog-pop {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes dialog-backdrop {
+    from {
+      background: rgba(20, 33, 61, 0);
+      backdrop-filter: blur(0);
+    }
+    to {
+      background: rgba(20, 33, 61, 0.55);
+      backdrop-filter: blur(10px);
+    }
+  }
+  /* Closing sequence — .is-closing is set momentarily before dialog.close() so
+     the exit animation actually plays; without this the dialog vanishes. */
+  dialog.apply-dialog.is-closing {
+    animation: dialog-pop 220ms cubic-bezier(0.4, 0, 1, 1) reverse both;
+  }
+  dialog.apply-dialog.is-closing::backdrop {
+    animation: dialog-backdrop 220ms ease-in reverse both;
+  }
+
+  /* Big success checkmark stroke draw */
+  @keyframes check-draw {
+    from {
+      stroke-dashoffset: 48;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .check-draw {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: check-draw 520ms cubic-bezier(0.16, 1, 0.3, 1) 120ms forwards;
   }
 
   ::selection {

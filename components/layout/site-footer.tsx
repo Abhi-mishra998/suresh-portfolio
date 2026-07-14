@@ -10,17 +10,21 @@ export function SiteFooter() {
       <Container>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <p className="flex items-baseline gap-2">
-              <span className="font-serif text-2xl italic leading-none tracking-tight text-ink">
+            <p className="flex items-baseline gap-2.5">
+              <span className="font-serif text-3xl italic leading-none tracking-tight text-ink">
                 ByteHubble
               </span>
-              <span className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute">
+              <span aria-hidden className="text-accent/70">
+                ✦
+              </span>
+              <span className="font-mono text-[0.68rem] uppercase tracking-[0.18em] text-ink-mute">
                 AI Academy
               </span>
             </p>
             <p className="mt-6 max-w-sm text-[0.95rem] leading-relaxed text-ink-mute">
-              Training software engineers to design, deploy, and operate
-              production AI systems in the enterprise.
+              Training engineers, students and professionals into roles at
+              global product companies, MNCs and top startups — through
+              enterprise-grade AI &amp; data architecture.
             </p>
           </div>
 

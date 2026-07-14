@@ -40,34 +40,32 @@ export function Curriculum() {
       className="border-b border-line py-24 md:py-32"
     >
       <Container>
-        <p className="reveal font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute">
-          Curriculum
+        <p className="reveal font-mono text-[0.72rem] uppercase tracking-[0.18em] text-accent">
+          ✦ Curriculum
         </p>
         <h2
           id="curriculum-title"
-          className="reveal mt-4 max-w-[24ch] text-[clamp(2rem,4.5vw,3.4rem)] font-medium leading-[1.05] tracking-[-0.025em] text-ink"
+          className="reveal mt-4 max-w-[24ch] font-serif text-[clamp(2.2rem,5vw,3.6rem)] font-normal leading-[1.03] tracking-[-0.025em] text-ink"
         >
           Six tracks.{" "}
-          <span className="font-serif italic font-normal text-ink-mute">
-            One outcome.
-          </span>
+          <span className="italic text-accent">One outcome.</span>
         </h2>
-        <p className="reveal reveal-d2 mt-6 max-w-[var(--container-prose)] text-[1.05rem] leading-[1.6] text-ink-mute">
-          Built for engineers who already ship software and want to ship AI the
-          same way — with the same rigor around correctness, cost, and
-          operations.
+        <p className="reveal mt-6 max-w-[var(--container-prose)] text-[1.05rem] leading-[1.65] text-ink-mute">
+          Built for engineers who already ship software and want the job at a
+          product company, MNC or funded startup — with the same rigor around
+          correctness, cost and operations that hiring managers screen for.
         </p>
 
         <ul className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TRACKS.map((t, i) => (
             <li
               key={t.num}
-              className={`reveal reveal-d${(i % 6) + 1} group relative rounded-xl border border-line bg-surface p-6 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-line-strong md:p-8`}
+              className={`reveal group relative rounded-2xl border border-line bg-surface p-6 shadow-[0_1px_0_rgba(20,33,61,0.04)] transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-[0_18px_36px_-24px_rgba(184,134,11,0.35)] md:p-8`}
             >
-              <span className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-dim">
+              <span className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-accent transition-colors">
                 {t.num}
               </span>
-              <h3 className="mt-3 text-xl font-medium tracking-[-0.01em] text-ink">
+              <h3 className="mt-3 font-serif text-2xl font-normal tracking-[-0.01em] text-ink transition-colors group-hover:text-accent md:text-[1.65rem]">
                 {t.title}
               </h3>
               <p className="mt-3 text-[0.95rem] leading-[1.6] text-ink-mute">

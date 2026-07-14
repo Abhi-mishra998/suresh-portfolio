@@ -1,11 +1,12 @@
 import { Container } from "@/components/layout/container";
 
 const OUTCOMES = [
-  "Architect a production AI system end-to-end — retrieval, evaluation, safety, cost.",
-  "Own the data layer: PostgreSQL, pgvector, embeddings, contracts, lineage.",
-  "Ship AI workloads to AWS, GCP, or Azure with observability and cost budgets.",
-  "Defend architectural choices in front of leadership, security, and legal.",
-  "Speak the language of enterprise architecture — not tutorial-land.",
+  "Walk into system-design rounds at FAANG, MNCs & product startups and answer at the architect bar.",
+  "Own the AI data layer end-to-end — PostgreSQL, pgvector, embeddings, contracts, lineage.",
+  "Justify cost-per-request, GPU utilization and FinOps trade-offs in leadership reviews.",
+  "Defend architectural choices against security, legal and compliance — the way senior engineers do.",
+  "Ship your interview take-home like a staff engineer, not a course grad.",
+  "Build the network — direct intros through the alumni base already inside product cos & MNCs.",
 ];
 
 export function Outcomes() {
@@ -17,17 +18,15 @@ export function Outcomes() {
       <Container>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <p className="reveal font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute">
-              Outcomes
+            <p className="reveal font-mono text-[0.72rem] uppercase tracking-[0.18em] text-accent">
+              ✦ What you walk out with
             </p>
             <h2
               id="outcomes-title"
-              className="reveal mt-4 text-[clamp(2rem,4.5vw,3.4rem)] font-medium leading-[1.05] tracking-[-0.025em] text-ink"
+              className="reveal mt-4 font-serif text-[clamp(2.2rem,5vw,3.6rem)] font-normal leading-[1.03] tracking-[-0.025em] text-ink"
             >
               By the end, you can{" "}
-              <span className="font-serif italic font-normal text-ink-mute">
-                own it.
-              </span>
+              <span className="italic text-accent">land the offer.</span>
             </h2>
           </div>
           <div className="md:col-span-7">
@@ -35,11 +34,11 @@ export function Outcomes() {
               {OUTCOMES.map((o, i) => (
                 <li
                   key={i}
-                  className={`reveal reveal-d${(i % 5) + 1} flex gap-4 border-b border-line py-5 text-[1.05rem] leading-[1.55] text-ink md:text-[1.1rem]`}
+                  className="reveal group flex gap-4 border-b border-line py-5 text-[1.05rem] leading-[1.55] text-ink transition-colors md:text-[1.1rem]"
                 >
                   <span
                     aria-hidden
-                    className="mt-1 font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-dim"
+                    className="mt-1 font-mono text-[0.72rem] uppercase tracking-[0.16em] text-accent"
                   >
                     0{i + 1}
                   </span>
