@@ -208,6 +208,21 @@
     animation: dialog-backdrop 220ms ease-in reverse both;
   }
 
+  /* Logo silhouettes — masks any SVG (single-color or full-color) to the
+     current color-target. Uniform monochrome across mixed logo sources.
+     Set mask-image inline per brand. */
+  .logo-mono {
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: color 240ms var(--ease-out), transform 240ms var(--ease-out);
+  }
+
   /* Big success checkmark stroke draw */
   @keyframes check-draw {
     from {
