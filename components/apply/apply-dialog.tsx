@@ -160,15 +160,20 @@ export function ApplyDialog() {
       className="apply-dialog"
       aria-labelledby="apply-title"
     >
-      <div className="relative mx-auto max-h-[92vh] overflow-y-auto rounded-2xl bg-canvas p-6 shadow-[0_30px_80px_-30px_rgba(20,33,61,0.55)] ring-1 ring-line-strong/70 md:p-8">
+      <div className="dialog-card relative w-[min(94vw,40rem)] max-h-[92vh] overflow-y-auto rounded-2xl bg-canvas p-6 shadow-[0_50px_140px_-30px_rgba(20,33,61,0.55),0_10px_30px_-15px_rgba(184,134,11,0.15)] ring-1 ring-line-strong/60 md:p-9">
+        {/* Gold hairline at top edge — editorial ribbon */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent"
+        />
         {/* Close */}
         <button
           type="button"
           onClick={closeDialog}
-          className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full text-ink-mute transition-colors hover:bg-line hover:text-ink"
+          className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full text-ink-mute transition-all duration-300 hover:rotate-90 hover:bg-line hover:text-ink"
           aria-label="Close application form"
         >
-          <span aria-hidden className="text-xl leading-none">
+          <span aria-hidden className="font-serif text-2xl leading-none">
             ×
           </span>
         </button>
@@ -178,22 +183,27 @@ export function ApplyDialog() {
         ) : (
           <>
             <header>
-              <p className="font-mono text-[0.72rem] uppercase tracking-[0.2em] text-accent">
-                ✦ Apply · Cohort 01
-              </p>
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-accent">
+                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
+                Cohort 01 · Applications open
+              </span>
               <h2
                 id="apply-title"
-                className="mt-3 font-serif text-[clamp(1.9rem,4vw,2.6rem)] font-normal leading-[1.05] tracking-[-0.02em] text-ink"
+                className="mt-5 font-serif text-[clamp(2.1rem,4.4vw,3rem)] font-normal leading-[1] tracking-[-0.025em] text-ink"
               >
                 Enterprise-Grade{" "}
                 <span className="italic text-accent">AI Fellowship</span>
               </h2>
-              <p className="mt-3 text-[0.98rem] leading-[1.55] text-ink-mute">
+              <p className="mt-4 text-[0.98rem] leading-[1.55] text-ink-mute">
                 Suresh personally reviews every application. He&rsquo;ll come
                 back within{" "}
                 <span className="text-ink">3 business days</span> with next
-                steps.
+                steps — curriculum, cohort dates and pricing.
               </p>
+              <div
+                aria-hidden
+                className="mt-6 h-px bg-gradient-to-r from-line via-line-strong to-line"
+              />
             </header>
 
             <form className="mt-6 space-y-4" onSubmit={onSubmit} noValidate>

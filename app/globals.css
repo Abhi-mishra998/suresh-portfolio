@@ -163,22 +163,44 @@
     animation-play-state: paused;
   }
 
-  /* Native <dialog> pop-in. `open` attribute is set by showModal(); ::backdrop
-     is a first-class pseudo-element (does NOT inherit from the dialog). */
+  /* Native <dialog>: fill the viewport and center children with grid. The pop
+     animation lives on the inner `.dialog-card`, NOT on the dialog element —
+     otherwise animation transforms fight the UA-provided centering and the
+     dialog drifts to a corner. `::backdrop` is a first-class pseudo (does
+     NOT inherit from the dialog) so it gets its own keyframes. */
   dialog.apply-dialog {
-    background: transparent;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
     padding: 0;
     border: 0;
-    max-width: min(100%, 40rem);
-    width: 100%;
+    background: transparent;
     color: inherit;
+    overflow: hidden;
   }
   dialog.apply-dialog[open] {
-    animation: dialog-pop 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    display: grid;
+    place-items: center;
   }
   dialog.apply-dialog[open]::backdrop {
     animation: dialog-backdrop 420ms ease-out both;
   }
+
+  .dialog-card {
+    animation: dialog-pop 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: center;
+  }
+  dialog.apply-dialog.is-closing .dialog-card {
+    animation: dialog-pop 220ms cubic-bezier(0.4, 0, 1, 1) reverse both;
+  }
+  dialog.apply-dialog.is-closing::backdrop {
+    animation: dialog-backdrop 220ms ease-in reverse both;
+  }
+
   @keyframes dialog-pop {
     from {
       opacity: 0;
@@ -195,17 +217,9 @@
       backdrop-filter: blur(0);
     }
     to {
-      background: rgba(20, 33, 61, 0.55);
-      backdrop-filter: blur(10px);
+      background: rgba(20, 33, 61, 0.6);
+      backdrop-filter: blur(12px);
     }
-  }
-  /* Closing sequence — .is-closing is set momentarily before dialog.close() so
-     the exit animation actually plays; without this the dialog vanishes. */
-  dialog.apply-dialog.is-closing {
-    animation: dialog-pop 220ms cubic-bezier(0.4, 0, 1, 1) reverse both;
-  }
-  dialog.apply-dialog.is-closing::backdrop {
-    animation: dialog-backdrop 220ms ease-in reverse both;
   }
 
   /* Logo silhouettes — masks any SVG (single-color or full-color) to the
