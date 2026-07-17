@@ -237,6 +237,111 @@
     transition: color 240ms var(--ease-out), transform 240ms var(--ease-out);
   }
 
+  /* ── Editorial article styles ──────────────────────────────────────────
+     Used only on /blog/*. Keeps the marketing pages clean. */
+
+  /* Terminal-style code block for the CDC pipeline listing */
+  .prose-code {
+    font-family: var(--font-mono);
+    background: #0f1a2e;
+    color: #e6dfcf;
+    border-radius: 1rem;
+    padding: 1.5rem 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    box-shadow: 0 20px 40px -24px rgba(20, 33, 61, 0.35);
+    border: 1px solid rgba(200, 168, 90, 0.2);
+    position: relative;
+  }
+  .prose-code::before {
+    content: "● ● ●";
+    display: block;
+    color: rgba(232, 206, 125, 0.5);
+    letter-spacing: 0.5em;
+    font-size: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Vertical roadmap spine — a gold thread running down the phase list.
+     view-timeline drives the fill so the thread "grows" as the reader scrolls. */
+  .roadmap-spine {
+    position: absolute;
+    top: 0;
+    left: 1.6rem;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--color-line-strong) 0%, var(--color-accent-soft) 40%, var(--color-accent) 100%);
+    border-radius: 2px;
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .roadmap-spine {
+        transform-origin: top;
+        animation: spine-fill 1s linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 60%;
+      }
+    }
+  }
+  @keyframes spine-fill {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+
+  /* CDC pipeline arrows — dashes draw in as they enter view */
+  @keyframes arrow-draw {
+    from { stroke-dashoffset: 60; }
+    to { stroke-dashoffset: 0; }
+  }
+  .arrow-draw path {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .arrow-draw path {
+        animation: arrow-draw 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 40%;
+      }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .arrow-draw path { stroke-dashoffset: 0; }
+  }
+
+  /* Drop-cap for the opening paragraph of long-form editorial pieces */
+  .drop-cap::first-letter {
+    float: left;
+    font-family: var(--font-serif);
+    font-size: 4.6rem;
+    font-style: italic;
+    line-height: 0.85;
+    color: var(--color-accent);
+    padding: 0.35rem 0.65rem 0 0;
+    margin-top: 0.15rem;
+  }
+
+  /* Editorial hairline used between article sections */
+  .hairline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    font-size: 0.68rem;
+  }
+  .hairline::before,
+  .hairline::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-line-strong), transparent);
+  }
+
   /* Big success checkmark stroke draw */
   @keyframes check-draw {
     from {

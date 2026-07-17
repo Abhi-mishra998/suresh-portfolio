@@ -27,6 +27,12 @@ export function SiteNav() {
           </Link>
 
           <div className="flex items-center gap-5">
+            <Link
+              href="/blog/the-modern-dba"
+              className="hidden font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute transition-colors hover:text-accent md:inline-flex"
+            >
+              Insights
+            </Link>
             <span className="hidden items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-ink-mute md:inline-flex">
               <span
                 aria-hidden

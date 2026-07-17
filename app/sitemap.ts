@@ -11,5 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    {
+      url: `${BASE}/blog/the-modern-dba`,
+      lastModified: new Date("2026-06-01"),
+      changeFrequency: "yearly",
+      priority: 0.8,
+    },
   ];
 }
