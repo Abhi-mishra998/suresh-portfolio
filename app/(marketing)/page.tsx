@@ -22,7 +22,7 @@ export default function HomePage() {
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 right-[-6%] -z-10 h-[520px] w-[520px] rounded-full opacity-40 blur-3xl"
+          className="parallax-slow pointer-events-none absolute -top-24 right-[-6%] -z-10 h-[520px] w-[520px] rounded-full opacity-40 blur-3xl will-change-transform"
           style={{
             background:
               "radial-gradient(circle at center, rgba(232,206,125,0.55), transparent 70%)",
@@ -30,7 +30,7 @@ export default function HomePage() {
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -bottom-32 left-[-8%] -z-10 h-[440px] w-[440px] rounded-full opacity-30 blur-3xl"
+          className="parallax-fast pointer-events-none absolute -bottom-32 left-[-8%] -z-10 h-[440px] w-[440px] rounded-full opacity-30 blur-3xl will-change-transform"
           style={{
             background:
               "radial-gradient(circle at center, rgba(232,206,125,0.45), transparent 70%)",

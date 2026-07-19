@@ -249,32 +249,15 @@ const ROADMAP = [
   },
 ];
 
-const CDC_CODE = `# Architecture: Oracle → Debezium → Kafka → Flink → PostgreSQL + BigQuery
-
-# Step 1: Enable Oracle LogMiner supplemental logging
-ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
-ALTER TABLE orders ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
-
-# Step 2: Debezium connector config (runs on Kafka Connect)
-{
-  "name": "oracle-cdc-orders",
-  "connector.class": "io.debezium.connector.oracle.OracleConnector",
-  "database.hostname": "oracle-prod.internal",
-  "database.user": "debezium_user",
-  "table.include.list": "SCHEMA.ORDERS,SCHEMA.CUSTOMERS",
-  "log.mining.strategy": "online_catalog",
-  "tombstones.on.delete": "true"
-}
-
-# Step 3: Kafka topic receives change events as structured JSON
-# { "op": "u", "before": {...}, "after": {...}, "ts_ms": 1718000000000 }
-
-# Step 4: Flink job consumes, transforms, writes to BigQuery (analytics)
-# and PostgreSQL (operational replica) simultaneously
-
-# Step 5: dbt models build analytical layers on BigQuery in real time
-# Step 6: Grafana dashboards on Prometheus metrics from all hops
-# Step 7: ML anomaly detection alerts on lag > 30s or error rate > 0.1%`;
+const CDC_STEPS = [
+  { n: "01", t: "Enable Oracle LogMiner supplemental logging", d: "Source-of-truth capture at the redo layer — no polling, no drift." },
+  { n: "02", t: "Debezium connector on Kafka Connect", d: "Declarative source config; schema evolution handled by Schema Registry." },
+  { n: "03", t: "Kafka topics receive structured change events", d: "Ordered, partitioned, replayable. Consumers scale independently." },
+  { n: "04", t: "Flink transforms & fans out in-flight", d: "Exactly-once semantics into PostgreSQL and BigQuery simultaneously." },
+  { n: "05", t: "dbt builds analytical layers on BigQuery", d: "Modeled, tested, lineage-tracked — in near real time." },
+  { n: "06", t: "Grafana + Prometheus across every hop", d: "One pane of glass from LogMiner lag to dbt run duration." },
+  { n: "07", t: "ML anomaly detection on lag & error rate", d: "Pages engineers with a pre-diagnosed root cause, not a raw alert." },
+];
 
 const TONE_CLASS: Record<string, string> = {
   decline:
@@ -756,14 +739,33 @@ export default function TheModernDBAPage() {
         </Container>
       </section>
 
-      {/* Code block */}
+      {/* Pipeline step legend — replaces the raw code block. Each step maps to
+          a node/edge in the diagram above, kept in prose form so it reads as
+          architecture, not a config dump. */}
       <section className="pb-14 md:pb-20">
         <Container>
-          <div className="reveal">
-            <pre className="prose-code">
-              <code>{CDC_CODE}</code>
-            </pre>
-          </div>
+          <ol className="reveal grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {CDC_STEPS.map((s) => (
+              <li
+                key={s.n}
+                className="group relative overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-accent"
+              >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-colors duration-500 group-hover:bg-accent/30"
+                />
+                <p className="font-mono text-[0.72rem] uppercase tracking-[0.2em] text-accent">
+                  Step {s.n}
+                </p>
+                <h4 className="mt-3 font-serif text-[1.15rem] font-normal leading-[1.2] tracking-[-0.005em] text-ink md:text-[1.25rem]">
+                  {s.t}
+                </h4>
+                <p className="mt-2 text-[0.9rem] leading-[1.55] text-ink-mute">
+                  {s.d}
+                </p>
+              </li>
+            ))}
+          </ol>
         </Container>
       </section>
 
@@ -1286,15 +1288,24 @@ function PullQuote({ children }: { children: React.ReactNode }) {
 }
 
 /* SVG CDC pipeline diagram — 6 nodes with connecting arrows.
-   Arrow strokes animate in via .arrow-draw when the container enters view. */
+   Arrow strokes animate in via .arrow-draw when the container enters view.
+   Data packets (small circles) travel along each edge to visualize flow. */
 function CDCDiagram() {
   const NODES = [
-    { x: 40, y: 90, w: 130, label: "Oracle DB", sub: "LogMiner + WAL" },
-    { x: 220, y: 90, w: 130, label: "Debezium", sub: "Kafka Connect" },
-    { x: 400, y: 90, w: 130, label: "Kafka", sub: "Topics + partitions" },
-    { x: 580, y: 90, w: 130, label: "Flink", sub: "Stream transform" },
-    { x: 760, y: 20, w: 150, label: "PostgreSQL", sub: "Ops replica" },
-    { x: 760, y: 160, w: 150, label: "BigQuery", sub: "Analytics + dbt" },
+    { x: 40, y: 90, w: 130, label: "Oracle DB", sub: "LogMiner + WAL", step: "01" },
+    { x: 220, y: 90, w: 130, label: "Debezium", sub: "Kafka Connect", step: "02" },
+    { x: 400, y: 90, w: 130, label: "Kafka", sub: "Topics + partitions", step: "03" },
+    { x: 580, y: 90, w: 130, label: "Flink", sub: "Stream transform", step: "04" },
+    { x: 760, y: 20, w: 150, label: "PostgreSQL", sub: "Ops replica", step: "05" },
+    { x: 760, y: 160, w: 150, label: "BigQuery", sub: "Analytics + dbt", step: "06" },
+  ];
+  // Each edge: unique id (used by <mpath>) + delay so packets stagger.
+  const EDGES = [
+    { id: "e1", d: "M170 130 L220 130", delay: "0s" },
+    { id: "e2", d: "M350 130 L400 130", delay: "0.6s" },
+    { id: "e3", d: "M530 130 L580 130", delay: "1.2s" },
+    { id: "e4", d: "M710 130 Q735 130 750 90 L750 60", delay: "1.8s" },
+    { id: "e5", d: "M710 130 Q735 130 750 170 L750 200", delay: "1.8s" },
   ];
   const ACCENT = "#B8860B";
   const INK = "#14213D";
@@ -1317,38 +1328,102 @@ function CDCDiagram() {
         >
           <path d="M0,0 L9,5 L0,10 z" fill={ACCENT} />
         </marker>
+        <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={ACCENT} stopOpacity="0.35" />
+          <stop offset="100%" stopColor={ACCENT} stopOpacity="0" />
+        </radialGradient>
+        {EDGES.map((e) => (
+          <path key={`p-${e.id}`} id={e.id} d={e.d} />
+        ))}
       </defs>
 
-      {/* Arrows (animated with .arrow-draw) */}
+      {/* Arrows (animated draw-in on view) */}
       <g
         className="arrow-draw"
         fill="none"
         stroke={ACCENT}
+        strokeOpacity="0.9"
         strokeWidth="1.6"
         markerEnd="url(#arrow)"
       >
-        <path d="M170 130 L220 130" />
-        <path d="M350 130 L400 130" />
-        <path d="M530 130 L580 130" />
-        <path d="M710 130 Q735 130 750 90 L750 60" />
-        <path d="M710 130 Q735 130 750 170 L750 200" />
+        {EDGES.map((e) => (
+          <use key={`u-${e.id}`} href={`#${e.id}`} />
+        ))}
+      </g>
+
+      {/* Data-packet flow: a small circle rides each edge, staggered so the
+          eye tracks Oracle → BigQuery/Postgres. Pure SMIL — no JS, and it
+          collapses to a static path under prefers-reduced-motion via CSS. */}
+      <g className="cdc-packets">
+        {EDGES.map((e) => (
+          <circle
+            key={`c-${e.id}`}
+            r="4"
+            fill={ACCENT}
+            opacity="0.95"
+          >
+            <animateMotion
+              dur="2.4s"
+              repeatCount="indefinite"
+              begin={e.delay}
+              rotate="auto"
+            >
+              <mpath href={`#${e.id}`} />
+            </animateMotion>
+            <animate
+              attributeName="opacity"
+              values="0;1;1;0"
+              keyTimes="0;0.15;0.85;1"
+              dur="2.4s"
+              begin={e.delay}
+              repeatCount="indefinite"
+            />
+          </circle>
+        ))}
       </g>
 
       {/* Nodes */}
       {NODES.map((n) => (
-        <g key={n.label} transform={`translate(${n.x},${n.y})`}>
+        <g key={n.label} transform={`translate(${n.x},${n.y})`} className="cdc-node">
+          {/* Soft glow behind each node */}
+          <ellipse
+            cx={n.w / 2}
+            cy={40}
+            rx={n.w / 2 + 14}
+            ry={44}
+            fill="url(#nodeGlow)"
+          />
           <rect
             width={n.w}
             height={80}
-            rx="10"
-            fill="#FBF7EF"
+            rx="12"
+            fill="#FFFFFF"
             stroke={INK}
             strokeOpacity="0.15"
             strokeWidth="1"
           />
+          <rect
+            width={n.w}
+            height={80}
+            rx="12"
+            fill="none"
+            stroke={ACCENT}
+            strokeOpacity="0.25"
+            strokeWidth="1"
+          />
+          <text
+            x="12"
+            y="18"
+            fill={ACCENT}
+            fontFamily="ui-monospace, monospace"
+            fontSize="9"
+            letterSpacing="2"
+          >
+            {n.step}
+          </text>
           <text
             x={n.w / 2}
-            y="34"
+            y="42"
             textAnchor="middle"
             fill={INK}
             fontFamily="serif"
@@ -1359,7 +1434,7 @@ function CDCDiagram() {
           </text>
           <text
             x={n.w / 2}
-            y="58"
+            y="64"
             textAnchor="middle"
             fill={INK}
             fillOpacity="0.55"
