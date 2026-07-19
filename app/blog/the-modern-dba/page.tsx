@@ -14,7 +14,7 @@ export const metadata: Metadata = {
       "A career wake-up call for the modern DBA. What the market actually needs from a database professional in 2026 — and the 18-month roadmap to get there.",
     type: "article",
     publishedTime: "2026-06-01",
-    authors: ["ALN"],
+    authors: ["Suresh Babu Avula"],
   },
 };
 
@@ -334,7 +334,7 @@ export default function TheModernDBAPage() {
           </p>
 
           <div className="reveal mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-6 font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-mute">
-            <span className="text-ink">ALN</span>
+            <span className="text-ink">Suresh Babu Avula</span>
             <span>·</span>
             <span>Enterprise Architect, ByteHubble</span>
             <span>·</span>
@@ -1170,15 +1170,15 @@ export default function TheModernDBAPage() {
             <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-canvas ring-1 ring-line-strong">
               <span className="absolute grid h-[70px] w-[70px] place-items-center rounded-full ring-1 ring-accent/40">
                 <span className="font-serif text-[1.6rem] italic text-accent">
-                  ALN
+                  SBA
                 </span>
               </span>
             </div>
             <p className="mt-6 font-serif text-[1.35rem] italic text-ink md:text-[1.55rem]">
-              — ALN
+              — Suresh Babu Avula
             </p>
             <p className="mt-2 font-mono text-[0.75rem] uppercase tracking-[0.16em] text-ink-mute">
-              Enterprise Architect &amp; Co-Founder, ByteHubble India Pvt Ltd
+              Enterprise Architect &amp; Founder, ByteHubble AI Academy
             </p>
             <p className="mt-3 max-w-md mx-auto text-[0.98rem] leading-[1.55] text-ink-mute">
               Building the next generation of AI-native data platform engineers
@@ -1210,8 +1210,8 @@ export default function TheModernDBAPage() {
             </div>
 
             <p className="mt-16 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-ink-dim">
-              © 2026 ByteHubble India Private Limited · Enterprise Data
-              Platform · AI Engineering · Hyderabad · aegisagent.in
+              © 2026 ByteHubble AI Academy · Enterprise Data Platform · AI
+              Engineering · Hyderabad
             </p>
           </div>
         </Container>

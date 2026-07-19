@@ -1,6 +1,5 @@
 import { Container } from "@/components/layout/container";
 import { TechMarquee } from "@/components/sections/tech-marquee";
-import { TrustBar } from "@/components/sections/trust-bar";
 import { Placements } from "@/components/sections/placements";
 import { TheGap } from "@/components/sections/the-gap";
 import { Curriculum } from "@/components/sections/curriculum";
@@ -64,10 +63,12 @@ export default function HomePage() {
 
           <p className="hero-in mt-8 max-w-[46rem] text-[1.15rem] leading-[1.6] text-ink-mute md:text-[1.2rem] [animation-delay:460ms]">
             <span className="text-ink">Trained by Suresh Babu Avula</span> —
-            enterprise architect who has designed petabyte-scale data & AI
-            systems for the world&rsquo;s largest companies and saved{" "}
+            enterprise architect with{" "}
+            <span className="text-ink">20+ years</span> designing
+            petabyte-scale data &amp; AI systems for the world&rsquo;s largest
+            companies and saving{" "}
             <span className="text-ink">$40M+ in cloud cost</span> for global
-            enterprises. <span className="text-ink">20,000+ engineers</span>{" "}
+            enterprises. <span className="text-ink">4,300+ engineers</span>{" "}
             trained. One trainer. One bar: enterprise-grade.
           </p>
 
@@ -98,10 +99,10 @@ export default function HomePage() {
             className="hero-in mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-line-strong/70 pt-8 md:grid-cols-4 [animation-delay:780ms]"
           >
             {[
-              { n: "20,000+", l: "Engineers trained" },
+              { n: "4,300+", l: "Engineers trained" },
               { n: "$40M+", l: "Enterprise savings" },
               { n: "Petabyte", l: "Scale operated" },
-              { n: "18+ yrs", l: "Enterprise architecture" },
+              { n: "20+ yrs", l: "Enterprise architecture" },
             ].map((s) => (
               <li key={s.l} className="group">
                 <p className="font-serif text-[clamp(1.9rem,3.4vw,2.8rem)] leading-none text-ink transition-colors group-hover:text-accent">
@@ -117,7 +118,6 @@ export default function HomePage() {
       </section>
 
       <Placements />
-      <TrustBar />
       <TheGap />
       <Curriculum />
       <Testimonials />

@@ -1,17 +1,18 @@
 import { Container } from "@/components/layout/container";
 
-const STATS = [
-  { number: "20,000+", label: "Engineers & students trained" },
-  { number: "$40M+", label: "Cloud cost saved for enterprises" },
-  { number: "Petabyte", label: "Scale data platforms operated" },
-  { number: "18+ yrs", label: "Enterprise architecture" },
-];
-
 const CREDENTIALS = [
+  "Independent Director — Directors Institute",
+  "AI & Analytics — Oxford, London",
+  "Strategic Management — Stanford",
+  "Corporate ESG — Wolf University",
+  "AI Leader — Mitra Robotics",
+  "AWS Certified Database — Specialty",
+  "Snowflake DBA — Snowflake",
   "11g Oracle Certified Professional",
   "AWS Solutions Architect",
   "PMP · ITIL V3 — IIT Kharagpur",
   "MCA — JNTU Hyderabad",
+  "5 IEEE white papers published — Database & AI",
 ];
 
 const PRACTICE = [
@@ -69,7 +70,7 @@ export function Founder() {
           <div className="md:col-span-7">
             <p className="reveal text-[1.1rem] leading-[1.7] text-ink-mute md:text-[1.15rem] [&::first-letter]:mr-1 [&::first-letter]:float-left [&::first-letter]:font-serif [&::first-letter]:text-[3.6rem] [&::first-letter]:font-normal [&::first-letter]:leading-[0.85] [&::first-letter]:text-accent">
               An enterprise product & data architect who has spent{" "}
-              <span className="text-ink">18+ years</span> designing
+              <span className="text-ink">20+ years</span> designing
               petabyte-scale data and database platforms that power products used
               by the world&rsquo;s largest enterprises — engineering systems
               that ingest terabytes daily, analyze terabyte-to-petabyte volumes,
@@ -93,7 +94,7 @@ export function Founder() {
               </span>{" "}
               through FinOps, workload optimization and enterprise EDP / MAP
               negotiations — and mentored{" "}
-              <span className="text-ink">20,000+ engineers</span>,
+              <span className="text-ink">4,300+ engineers</span>,
               professionals and students into roles at global product companies,
               MNCs and top startups.
             </p>
@@ -114,23 +115,7 @@ export function Founder() {
           </div>
         </div>
 
-        <div className="reveal mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line-strong/70 bg-line-strong/60 md:mt-20 md:grid-cols-4">
-          {STATS.map((s) => (
-            <div
-              key={s.label}
-              className="group bg-surface p-6 text-center transition-colors hover:bg-accent-soft/25 md:p-8 md:text-left"
-            >
-              <p className="font-serif text-[clamp(1.9rem,3.4vw,2.8rem)] font-normal leading-none tracking-[-0.02em] text-accent">
-                {s.number}
-              </p>
-              <p className="mt-3 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-ink-mute">
-                {s.label}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="reveal mt-14 border-t border-line pt-8">
+        <div className="reveal mt-16 border-t border-line pt-8 md:mt-20">
           <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-ink-dim">
             ✦ Credentials
           </p>
